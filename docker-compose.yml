@@ -1,0 +1,31 @@
+# Versión del archivo docker Compose
+version: "3"
+
+# Qué servicios estarán disponibles en la aplicación
+services:
+
+  # Servicio web
+  web:
+    # La imagen que usará el servicio
+    image: "node-app"
+    # Configuración del servicio
+    deploy:
+      # 5 instancias del servicio
+      replicas: 5
+      # Límites de recursos usados del host
+      resources:
+        limits:
+          cpus: "0.1"
+          memory: 50M
+      # Políticas de restart
+      restart_policy:
+        condition: on-failure
+    # Exponer el puerto 3000 de cada contenedor al puerto 4000 de la network creada
+    ports:
+      - "4000:3000"
+    # Network a la que pertenecerá este service
+    networks:
+      - webnet
+# Networks que usará esta aplicación
+networks:
+  webnet:
